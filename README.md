@@ -14,7 +14,7 @@ This repository
 ## How to create environment required to run code
 
 ```console  
-git clone [https://github.com/Emmaant/Wind-power-prediction]
+git clone https://github.com/Emmaant/Wind-power-prediction
 ```
 
 Navigate to the cloned directory
