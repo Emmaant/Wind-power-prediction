@@ -1,0 +1,43 @@
+# Ignore everything in the data/ folder
+data/*
+parquet_output_2020/*
+parquet_output/*
+runs/**
+runs_mlp/**
+ml_framework/models/*
+ml_framework/config_files/*
+ml_framework/config_files_hourly/**
+
+# Allow the data/ folder itself to be tracked
+!data/
+!runs/
+!runs_mlp/
+!ml_framework/models/
+
+
+wandb/
+**/wandb/
+
+
+# Ignore everything in the data/ folder
+data_simulated/*
+
+# Allow the data/ folder itself to be tracked
+!data_simulated/
+
+.DS_Store
+
+# Ignore Python cache files
+__pycache__/
+*.py[cod]
+
+
+# Ignore everything in the data/ folder
+data_simulated/*
+
+# Allow the data/ folder itself to be tracked
+!data_simulated/
+
+plotting.ipynb
+plotting.ipynb
+plotting.ipynb
