@@ -1,0 +1,22 @@
+data_settings:
+  simulated: False
+  local_features: True
+  global_features: True
+  hourly_data: False
+  multitask: False       #Multitask only supported by CPU if used average of local features will be used
+  global_feature_list: ['ws','wd_cos','wd_sin']
+  local_feature_list: ['turbine_on_',] #
+  targets: ['pow_']
+  num_turbines: 16
+
+data_paths:
+  simulated_data: 'data/floris_simulated_ifs_all_data.parquet'
+  scada_data: 'data/train_data/ml_data/df_ifs_scada.parquet'
+  split_index: 'data/train_data/ml_data/index.pkl'
+  windFarmCoord_path: 'data/coordinates_kronoberg.csv'
+
+data_paths_hourly:
+  simulated_data: 'data/floris_simulated_ifs_all_data.parquet'
+  scada_data: 'data/train_data/ml_data/df_ifs_scada_hourly.parquet'
+  split_index: 'data/train_data/ml_data/index_hourly.pkl'
+  windFarmCoord_path: 'data/coordinates_kronoberg.csv'
