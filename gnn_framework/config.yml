@@ -1,0 +1,47 @@
+run_settings:
+  validate: True                        # if the model should be validated
+  num_t_workers: 0                      # num of workers for the train set dataloader
+  num_v_workers: 0                      # num of workers for the validation set dataloader
+
+# settings that handle the io
+io_settings:
+  wandb_project_name: IFS
+  path: 'data/graphs/ifs/'
+  directory: 'data/graphs/new/directed_True_sim_False_local_True_global_True_features_14_targets_1_D_136_length_2720_width_2_angle_85'
+  train_graphs_path:  'train.pt'
+  validate_graphs_path:  'validation.pt'
+  test_graphs_path: 'test.pt'
+  run_dir: './runs'                     # path to the save directory for model saving
+  save_epochs: 50                      # number of epochs between model saves
+  pretrained_model: ''                  # leave empty string if not using pretrained model
+
+# training hyperparameters
+hyperparameters:
+  epochs: 300                         # number of epochs
+  start_lr: 1e-3                        # initial learning rate
+  min_lr: 1e-4                  # decay the learning rate up until this epoch
+  batch_size: 64                       # number of graphs per batch   
+  early_stopping_patience: 40                   
+
+# model architecture settings
+model_settings:
+  num_layers: 4
+  conv_type: 'GENConv' # Should be in  GATConv, GENConv
+  GEN_agg_type: 'add'
+  norm_type: 'LayerNorm' # LayerNorm or BatchNorm
+
+  processor_settings:
+    optimizer: 'Adam' # Either Adam or SGD
+
+encoder_settings:
+  node_enc_mlp_layers: [256,256]    
+  edge_enc_mlp_layers: [256,256]
+  node_latent_dim: 64
+  edge_latent_dim: 64
+
+decoder_settings:
+  node_dec_mlp_layers: [64]
+
+hyper_tuning_settings:
+  tune: False
+  n_trials: 40

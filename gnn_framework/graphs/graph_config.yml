@@ -1,0 +1,38 @@
+graph_settings:
+  # Common Graph Settings
+  num_turbines: 16
+  directed: True # Options: undirected, directed
+  simulated: False 
+  local: True 
+  glbal: True 
+  curtailment_mode: False 
+  output_path: 'data/graphs/hourly'
+  windFarmCoord_path: 'data/coordinates_kronoberg.csv'
+  local_features: ['turbine_on_'] #,"cos_wind_direction_100m_","sin_wind_direction_100m_","wind_speed_100m_","temperature_2m_","relative_humidity_2m_","surface_pressure_","precipitation_", "snowfall_", "rain_","cos_wind_direction_100m_","sin_wind_direction_100m_","wind_speed_100m_"
+  targets: ['pow_']  
+  # ,'Blade angle (pitch position) A_', 'Nacelle position_cos_','Nacelle position_sin_','Rotor speed_' 
+  #,,'wd_cos_','wd_sin_','Wind speed, Standard deviation_','ws_'
+  # Simulated Data Settings
+  simulated_data:
+    input_path: 'data_simulated/floris_different_layouts.parquet'
+    global_features: ['ti','ws', 'wd_cos','wd_sin']
+    
+  # SCADA Data Settings
+  scada_data:
+    input_path: 'data/train_data/df_ifs_scada_hourly.parquet'
+    global_features: ['ws', 'wd_cos','wd_sin','sin_time_of_day','cos_time_of_day', 'sin_month_of_year','cos_month_of_year'] #, 'ws', 'wd_cos','wd_sin','sin_time_of_day','cos_time_of_day', 'sin_month_of_year','cos_month_of_year','wd_cos','wd_sin 'ws',"cos_wind_direction_100m_004","sin_wind_direction_100m_004","wind_speed_100m_004"
+
+
+data_settings:
+ train_ratio: 0.8 
+ validation_ratio: 0.1 
+ test_ratio: 0.1
+ sample_window: 144 #Use 1008 for sample size one week, use 144 for sample size one day
+ norm_type: 'minmax' #Set to fixed, remove from config file
+
+#If directed True settings for wake
+wake_settings:
+  D: 136
+  length: 2720
+  base_width: 2
+  angle: 85

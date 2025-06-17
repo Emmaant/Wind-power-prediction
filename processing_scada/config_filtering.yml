@@ -1,0 +1,17 @@
+n_turbines: 16
+left_power_curve_bound: 2 # To remove outliers
+right_power_curve_bound: 3 # To remove outliers
+limit_non_operational: -100 # considered shut off down to this number in kw
+file_path_scada: 'data/SCADA_non_filtered_2020-01-01__2024-12-01.parquet'
+file_path_weather: 'data/IFS_data_interpolated.csv'
+power_curve_path: 'data/power_curve_kronoberg.csv'
+file_name_save: 'data/scada_ifs_filtered.parquet' # file name for filtered file
+
+n_turbines_off_limit: 7 #if less turbines than this are operational the row is removed
+
+information_add:
+  time_of_day: True # added as cyclic feature
+  month: True # added as cyclic feature
+  resample_resolution: False
+  resolution: '1h' # only used if resample_resolution is True
+
