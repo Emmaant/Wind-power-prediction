@@ -17,27 +17,31 @@ discrepancies between training data and forecast data.
 
 
 ## Repository structure (NOT Finalized)
-├── gnn_framework/ \
-  ├── processor_settings \
-  ├── config.yml \
-  ├── gnn_architecture.py \
-  ├── do_train_gnn_model.py \
-├── ml_framework/ \
-  ├── config_files/ \
-  ├── config_files_mlp/ \
-  ├── do_inference_forecast_mlp.py \
-  ├── do_inference_forecast.py \
-  ├── do_inference_mlp.py \
-  ├── do_inference.py \
-  ├── do_train_ml_model.py \
-  ├── do_train_mlp_model.py \
-├── processing_forecast_data/ \
-├── processing_scada_data/ \
-  ├── config_filtering.yml \
-  ├── do_filtering.py \
-  ├── helpers.py \
-├── processing_weather_data/\
-  
+Wind-power-prediction/
+├── gnn_framework/
+│   ├── processor_settings/
+│   ├── config.yml
+│   ├── gnn_architecture.py
+│   ├── do_train_gnn_model.py
+│
+├── ml_framework/
+│   ├── config_files/
+│   ├── config_files_mlp/
+│   ├── do_inference_forecast_mlp.py
+│   ├── do_inference_forecast.py
+│   ├── do_inference_mlp.py
+│   ├── do_inference.py
+│   ├── do_train_ml_model.py
+│   ├── do_train_mlp_model.py
+│
+├── processing_forecast_data/
+│
+├── processing_scada_data/
+│   ├── config_filtering.yml
+│   ├── do_filtering.py
+│   ├── helpers.py
+│
+├── processing_weather_data/
 
 
 
@@ -61,7 +65,20 @@ conda create --name <env> --file requirements.txt
 ```
 
 ## How to filter SCADA data
-To filter the SCADA data from the wind farm, change the settings in `config_filtering.yml` and set the path to the unfiltered SCADA data. If external weather data such as reanalysis data should be added to the cleaned dataset, specify the path to this in the config file.  The weather data must have the same time resolution as the SCADA data.
+To preprocess the raw SCADA data:
+
+1. Open the configuration file:  
+   `processing_scada_data/config_filtering.yml`
+
+2. Set the path to the **unfiltered SCADA data**.
+
+3. *(Optional)* If you want to include external weather data (e.g., reanalysis data), specify its path in the same config file.  
+   ⚠️ **Note**: The weather data must have the **same time resolution** as the SCADA data.
+
+To run the filtering process:
+
+```bash
+python processing_scada_data/do_filtering.py
 
 ## How to create graphs
 
