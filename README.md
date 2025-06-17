@@ -79,6 +79,7 @@ To run the filtering process:
 
 ```bash
 python processing_scada_data/do_filtering.py
+```
 
 ## How to create graphs
 
