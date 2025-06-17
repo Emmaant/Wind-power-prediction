@@ -18,6 +18,8 @@ discrepancies between training data and forecast data.
 
 ## Repository structure (NOT Finalized)
 Wind-power-prediction/
+```
+Wind-power-prediction/
 ├── gnn_framework/
 │   ├── processor_settings/
 │   ├── config.yml
@@ -42,7 +44,7 @@ Wind-power-prediction/
 │   ├── helpers.py
 │
 ├── processing_weather_data/
-
+```
 
 
 
