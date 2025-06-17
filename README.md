@@ -17,7 +17,7 @@ discrepancies between training data and forecast data.
 
 
 ## Repository structure (NOT Finalized)
-Wind-power-prediction/
+
 ```
 Wind-power-prediction/
 ├── gnn_framework/
@@ -75,7 +75,7 @@ To preprocess the raw SCADA data:
 2. Set the path to the **unfiltered SCADA data**.
 
 3. *(Optional)* If you want to include external weather data (e.g., reanalysis data), specify its path in the same config file.  
-   ⚠️ **Note**: The weather data must have the **same time resolution** as the SCADA data.
+    **Note**: The weather data must have the **same time resolution** as the SCADA data.
 
 To run the filtering process:
 
@@ -86,7 +86,17 @@ python processing_scada_data/do_filtering.py
 ## How to create graphs
 
 ## How to train GNN
-To train the GNN, change the path in `config.yml`in `gnn_framework`to the folder where the graphs are stored. Then run `do_train_gnn_model.py`
+To train the GNN model:
+
+1. Open the GNN configuration file:
+   `gnn_framework/config.yml`
+
+2. Set the path to the folder containing the **graph data**.
+
+To train the GNN model, run:
+```bash
+python gnn_framework/do_train_gnn_model.py
+```
 
 
 
