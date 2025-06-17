@@ -17,11 +17,23 @@ discrepancies between training data and forecast data.
 
 
 ## Repository structure (NOT Finalized)
-.
-├── 
-├── 
-├── src/                  
-│   ├──    
+├── gnn_framework/ \
+    ├── processor_settings \
+    ├── config.yml \
+    ├── gnn_architecture.py \
+    ├── train_gnn.py \
+├── ml_framework/ \
+    ├── config_files/ \
+    ├── config_files_mlp/ \
+    ├── do_inference_forecast_mlp.py \
+    ├── do_inference_forecast.py \
+    ├── do_inference_mlp.py \
+    ├── do_inference.py \
+    ├── do_train_ml_model.py \
+    ├── do_train_mlp_model.py \
+├── processing_forecast_data/ \
+├── processing_scada/ \
+├── processing_weather_data/\
 
 
 ## How to create environment required to run code
