@@ -21,7 +21,7 @@ discrepancies between training data and forecast data.
   ├── processor_settings \
   ├── config.yml \
   ├── gnn_architecture.py \
-  ├── train_gnn.py \
+  ├── do_train_gnn_model.py \
 ├── ml_framework/ \
   ├── config_files/ \
   ├── config_files_mlp/ \
@@ -32,8 +32,14 @@ discrepancies between training data and forecast data.
   ├── do_train_ml_model.py \
   ├── do_train_mlp_model.py \
 ├── processing_forecast_data/ \
-├── processing_scada/ \
+├── processing_scada_data/ \
+  ├── config_filtering.yml \
+  ├── do_filtering.py \
+  ├── helpers.py \
 ├── processing_weather_data/\
+  
+
+
 
 
 ## How to create environment required to run code
@@ -54,9 +60,13 @@ Create environment
 conda create --name <env> --file requirements.txt
 ```
 
+## How to filter SCADA data
+To filter the SCADA data from the wind farm, change the settings in `config_filtering.yml` and set the path to the unfiltered SCADA data. If external weather data such as reanalysis data should be added to the cleaned dataset, specify the path to this in the config file.  The weather data must have the same time resolution as the SCADA data.
+
+## How to create graphs
 
 ## How to train GNN
-
+To train the GNN, change the path in `config.yml`in `gnn_framework`to the folder where the graphs are stored. Then run `do_train_gnn_model.py`
 
 
 

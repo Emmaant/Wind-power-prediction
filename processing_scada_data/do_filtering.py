@@ -49,13 +49,15 @@ def filtering_scada_data(power_curve_df, df, config):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Filter SCADA data for each turbine.")
-    parser.add_argument('--yaml_config', '-c', help="path to the yaml config file", type=str,required=False, default='processing_scada/config_filtering.yml')
-
+    parser.add_argument('--yaml_config', '-c', help="path to the yaml config file", type=str,required=False, default='processing_scada_data/config_filtering.yml')
     args = parser.parse_args()
     
     config = Box.from_yaml(filename=args.yaml_config, Loader=yaml.FullLoader)
-    df = merge_global_local_features(config)
-
+    df = pd.read_parquet(config.file_path_scada)
+    if config.use_weather_data:
+        df_weather = pd.read_csv(config.file_path_weather)
+        df = merge_global_local_features(df,df_weather)
+        
     power_curve_df = pd.read_csv(config.power_curve_path)
     df = filtering_scada_data(power_curve_df,df,config)
     df = add_time_features(df,config)

@@ -1,3 +1,7 @@
+'''
+Script that contains helper functions to filter the SCADA data
+and to combine it with weather data with same time resolution.
+'''
 import numpy as np
 import pandas as pd
 
@@ -220,10 +224,7 @@ def remove_curtailment_values(df):
             print(f"Turbine {turbine_number}: {before - after} values removed due to curtailment")
     return df
 
-def merge_global_local_features(config):
-
-    df_scada = pd.read_parquet(config.file_path_scada)
-    df_weather = pd.read_csv(config.file_path_weather)
+def merge_global_local_features(df_scada,df_weather):
  
     for df in [df_scada, df_weather]:
         if 'timestamp' in df.columns and 'time' not in df.columns:
@@ -237,20 +238,6 @@ def merge_global_local_features(config):
 
     df_weather['time'] = pd.to_datetime(df_weather['time'], utc = True)
     df_scada['time'] = pd.to_datetime(df_scada['time'], utc = True)
-
-    if config.information_add.resample_resolution:
-        print('Changing resolution to', config.information_add.resolution)
-        
-        #Removing 00.00 value
-        df_scada = df_scada[df_scada.index > df_scada.index[0]]
-
-        #Resample hourly from XX.10 - YY.00
-        df_scada = df_scada.set_index('time')
-        df_scada = df_scada.resample(config.information_add.resolution, label='right', closed='right').mean()
-
-        #Remove curtailment columns which are not 0 or 18
-        curtailment_cols = df_scada.filter(regex='Curtailment mode').columns
-        df_scada = df_scada[df_scada[curtailment_cols].isin([0, 18]).all(axis=1)]
 
     df = df_scada.merge(df_weather, on='time', how='inner')
     return df
