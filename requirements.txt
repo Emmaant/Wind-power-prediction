@@ -1,0 +1,11 @@
+pyarrow
+torch
+openpyxl
+floris
+flasc
+cdsapi
+torch-geometric
+python-box
+cftime
+netCDF4
+optuna
