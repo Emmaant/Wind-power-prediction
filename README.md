@@ -20,6 +20,9 @@ discrepancies between training data and forecast data.
 
 ```yaml
 data/
+├── graphs/
+│  └── ...
+└── ...
 
 gnn_framework/
 ├── processor_settings/
