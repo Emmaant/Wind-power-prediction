@@ -1,0 +1,17 @@
+num_turbines: 16
+wind_farm_path: 'data/coordinates_kronoberg.csv'
+hourly_data: False
+
+data_paths:
+  scada_data: 'data/train_data/scada_ifs_filtered.parquet'
+  split_index: 'data/train_data/ml_data/index.pkl'
+
+data_paths_res_hour:
+  scada_data: 'data/train_data/scada_ifs_filtered_hourly.parquet'
+  split_index: 'data/train_data/ml_data/index_hourly.pkl'
+
+wake_settings:
+  D: 136 
+  length: [2720]
+  base_width: [2]
+  angle: [3, 10, 20, 40, 70, 85]
