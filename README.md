@@ -18,32 +18,41 @@ discrepancies between training data and forecast data.
 
 ## Repository structure (NOT Finalized)
 
-```
-Wind-power-prediction/
-├── gnn_framework/
-│   ├── processor_settings/
-│   ├── config.yml
-│   ├── gnn_architecture.py
-│   ├── do_train_gnn_model.py
-│
-├── ml_framework/
-│   ├── config_files/
-│   ├── config_files_mlp/
-│   ├── do_inference_forecast_mlp.py
-│   ├── do_inference_forecast.py
-│   ├── do_inference_mlp.py
-│   ├── do_inference.py
-│   ├── do_train_ml_model.py
-│   ├── do_train_mlp_model.py
-│
-├── processing_forecast_data/
-│
-├── processing_scada_data/
-│   ├── config_filtering.yml
-│   ├── do_filtering.py
-│   ├── helpers.py
-│
-├── processing_weather_data/
+```yaml
+data/
+
+gnn_framework/
+├── processor_settings/
+│   └── optimizer.py
+├── config.yml
+├── gnn_architecture.py
+└── train_gnn.py
+
+ml_framework/
+├── config_files/
+│   ├── feature_ws_wd_turbineon/
+│   │   ├── config.yml
+│   └── ...
+├── config_files_mlp/
+│   ├── multi_feature_ws_wd_turbineon/
+│   │   ├── config.yml
+├── do_inference.py
+├── do_inference_forecast.py
+├── do_inference_forecast_mlp.py 
+├── do_inference_mlp.py
+├── do_train_ml_model.py
+└── do_train_mlp_model.py
+
+processing_forecast_data/
+├── do_get_forecast.py
+└── do_reformat_forecast_data.py
+processing_scada_data/
+├── config_filtering.yml
+├── do_filtering.py
+└── helpers.py
+processing_weather_data/
+
+
 ```
 
 
