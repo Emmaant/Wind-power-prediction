@@ -8,8 +8,6 @@ import yaml as yaml
 from sklearn.metrics.pairwise import euclidean_distances
 from utils.graph_helpers import *
 
-#NOTE: Remove support for simulated data?
-
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Create graphs for GNN")
     parser.add_argument('-config_path', type=str, help="Specify file path to config file for graphs", default='gnn_framework/graphs/graph_config.yml')
@@ -22,13 +20,8 @@ if __name__ == '__main__':
 
     local_feat = config.graph_settings.local_features
 
-    #Reading data
-    if simulated:
-        df = pd.read_parquet(config.graph_settings.simulated_data.input_path)
-        n_global_features = len(config.graph_settings.simulated_data.global_features)
-    else:
-        df = pd.read_parquet(config.graph_settings.scada_data.input_path)
-        n_global_features = len(config.graph_settings.scada_data.global_features)
+    df = pd.read_parquet(config.graph_settings.scada_data.input_path)
+    n_global_features = len(config.graph_settings.scada_data.global_features)
 
     windFarmCoord = pd.read_csv(config.graph_settings.windFarmCoord_path)
     print('Read data successfully')
@@ -48,7 +41,6 @@ if __name__ == '__main__':
     n_local_features = 0
     if config.graph_settings.local:
         n_local_features = len(config.graph_settings.local_features)
-
 
     dir_name = '_'.join(['directed',str(config.graph_settings.directed),
                         'sim',str(config.graph_settings.simulated),

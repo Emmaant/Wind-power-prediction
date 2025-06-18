@@ -5,7 +5,6 @@ graph_settings:
   simulated: False 
   local: True 
   glbal: True 
-  curtailment_mode: False 
   output_path: 'data/graphs/forcast'
   windFarmCoord_path: 'data/coordinates_kronoberg.csv'
   local_features: ['turbine_on_']

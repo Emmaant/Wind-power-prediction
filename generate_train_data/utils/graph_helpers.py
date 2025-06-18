@@ -194,19 +194,11 @@ class Graph:
             self.data_columns = self.data_columns + ['wd']
 
         self.y_columns = [f'{x}{str(i).zfill(3)}' for i in range(num_turbines) for x in targets]
-
-        #NOTE: Filtrerar vi inte ut detta innan?
-        ###
-        if self.curtailment_mode:
-            self.curt_columns = [f'{x}{str(i).zfill(3)}' for i in range(num_turbines) for x in ['Curtailment mode_']]
-        else:
-            self.curt_columns = []
-        ###
             
         data_columns = self.data_columns + self.y_columns
 
         #Drop nan for both X and y
-        df_data = df[data_columns + self.curt_columns].copy().dropna().reset_index(drop=True)
+        df_data = df[data_columns].copy().dropna().reset_index(drop=True)
         print('Data left', len(df_data))
 
         train_indices,val_indices,test_indices = get_split_index(df_data,config)
@@ -258,15 +250,6 @@ class Graph:
 
         Returns: 
         """
-
-        if self.curtailment_mode:
-            embedding_dim = 3
-            valid_values = sorted([0.0, 3.0, 18.0, 19.0, 35.0, 36.0, 40.0, 43.0, 44.0, 45.0, 50.0, 51.0, 52.0] )  
-            value_to_index = {v: i for i, v in enumerate(valid_values)}
-            num_categories = len(valid_values) + 1  # +1 for unknown values
-            self.embedding_layer = nn.Embedding(num_categories, embedding_dim)
-            curtailment_columns = [f"Curtailment mode_{i:03d}" for i in range(self.num_turbines)]
-
         if self.directed is False:
             edge_index = create_edge_index_undirected(self.num_turbines)
             edge_attr = create_edge_attribute(edge_index, attr_array)
@@ -279,16 +262,6 @@ class Graph:
 
             num_targets = len(self.y_columns) // self.num_turbines  # Infer number of targets
             y_nodes = torch.tensor(y.to_numpy().reshape(self.num_turbines, num_targets), dtype=torch.float32)
-
-            #NOTE: Remove? 
-            ####
-            if self.curtailment_mode:
-                curtailment_values = df_data.iloc[i][curtailment_columns].to_numpy()
-                unknown_index = num_categories - 1  # Assign unknowns to last index
-                curtailment_indices = np.array([value_to_index.get(v, unknown_index) for v in curtailment_values])
-                curtailment_indices = torch.tensor(curtailment_indices, dtype=torch.long)
-                curtailment_embeddings = self.embedding_layer(curtailment_indices)  # Shape: (16, embedding_dim)
-            ####
 
             if self.local:
                 columns_local = self.data_columns_local
@@ -311,12 +284,6 @@ class Graph:
                 x_nodes = x_global
             else:
                 x_nodes = torch.empty((self.num_turbines, 0), dtype=torch.float32)
-
-            #NOTE: Remove? 
-            ####
-            if self.curtailment_mode:  # Check your condition for curtailment mode
-                x_nodes = torch.cat([x_nodes, curtailment_embeddings], dim=1)
-            ####
 
             if self.directed is True:
                 wd = df_data.loc[i, 'wd']
