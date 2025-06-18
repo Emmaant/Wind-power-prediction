@@ -134,7 +134,7 @@ The models trained are kNN regressor, XGBoost regressor and Random Forest Regres
 To train the models run:
 
 ```bash
-python ml_framework/do_train_ml_model.py -c 'config_files'
+python ml_framework/do_train_ml_model.py -c 'ml_framework/config_files'
 ```
 
 Only the best model is saved. Training is done on CPU. GPU is not supported by the script.
