@@ -16,7 +16,7 @@ importance of accurately representing global weather data, as well as accounting
 discrepancies between training data and forecast data.
 
 
-## Repository structure (NOT Finalized)
+## Repository structure
 
 ```yaml
 data/
