@@ -136,7 +136,7 @@ class Trainer:
         run.finish()
 
 if __name__ == '__main__': 
-    parser = argparse.ArgumentParser(description="Train XGBOOST regressor")
+    parser = argparse.ArgumentParser(description="Train sklearn regressors")
     parser.add_argument('--yaml_config', '-c', help="path to the directory with yaml config files", type=str,
                         required=False, default=None)
 

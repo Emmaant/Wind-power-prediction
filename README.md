@@ -127,6 +127,17 @@ python gnn_framework/do_train_gnn_model.py
 To train ML models the code in ml_framework is used. To train MLP use do_train_mlp_model.py or sklearn models can be trained do_train_ml_model.py. Tabular data is used as input.
 
 ### How to train sklearn models
+To train sklearn models a directory of subdirectories with config files is needed. Each config files specifies the features to use during training and if one model for each turbine is to be trained or one model for all turbines. The trained models are saved in the subdirectories. 
+
+The models trained are kNN regressor, XGBoost regressor and Random Forest Regressors. Others could be added to the dictionary regressors if needed. The hyperparameters are tuned using grid search and specified in the dictionary  param_grids. To modify, modify script directly.
+
+To train the models run:
+
+```bash
+python ml_framework/do_train_ml_model.py -c 'config_files'
+```
+
+Only the best model is saved. Training is done on CPU. GPU is not supported by the script.
 
 
 ### How to train MLP models
