@@ -199,7 +199,7 @@ The columns include:
 Run:
 
 ```bash
-python processing_forecast_data/do_reformat_forecast_data.py --forecast_dir 'data/forecast' --scada_data  --index_path
+python processing_forecast_data/do_reformat_forecast_data.py --forecast_dir 'data/forecast' --scada_data 'data/scada_ifs_filtered.parquet' --index_path 'index.pkl'
 ```
 To merge forecast data with SCADA data. You will need to specify forecast directory, path to SCADA data and index to use.
 
