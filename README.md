@@ -93,6 +93,24 @@ python processing_scada_data/do_filtering.py
 ```
 
 ## How to create graphs
+Before training the GNN model, graph data must be generated from raw input. This is done using the script:
+```bash
+python generate_data/do_create_graph.py -config_path 'generate_data/graph_config.yml'
+```
+To generate graphs, you need to provide a configuration file. A sample config is available in generate_data/graph_config.yml
+
+##### The config file allows you to specify:
+- To use simulated data or not
+- Path to the raw data file.
+- Node features:
+   - Local features: Specific to each turbine (identified by _XXX).
+   - Global features: Shared across all nodes in the graph.
+- Wake settings, which defines how graph edges (connections between turbines) are constructed, based on wake modeling.
+
+Generated graphs are saved under:
+```bash
+Data/graphs/
+```
 
 ## How to train GNN
 To train the GNN model:

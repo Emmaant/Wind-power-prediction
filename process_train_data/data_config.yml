@@ -1,5 +1,5 @@
 num_turbines: 16
-wind_farm_path: 'data/coordinates_kronoberg.csv'
+wind_farm_path: 'data/coordinates_wind_farm.csv'
 hourly_data: False
 
 data_paths:

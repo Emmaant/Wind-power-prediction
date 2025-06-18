@@ -13,10 +13,10 @@ data_paths:
   simulated_data: 'data/floris_simulated_ifs_all_data.parquet'
   scada_data: 'data/train_data/ml_data/df_ifs_scada.parquet'
   split_index: 'data/train_data/ml_data/index.pkl'
-  windFarmCoord_path: 'data/coordinates_kronoberg.csv'
+  windFarmCoord_path: 'data/coordinates_wind_farm.csv'
 
 data_paths_hourly:
   simulated_data: 'data/floris_simulated_ifs_all_data.parquet'
   scada_data: 'data/train_data/ml_data/df_ifs_scada_hourly.parquet'
   split_index: 'data/train_data/ml_data/index_hourly.pkl'
-  windFarmCoord_path: 'data/coordinates_kronoberg.csv'
+  windFarmCoord_path: 'data/coordinates_wind_farm.csv'

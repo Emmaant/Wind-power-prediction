@@ -5,8 +5,8 @@ graph_settings:
   simulated: False 
   local: True 
   glbal: True 
-  output_path: 'data/graphs/forcast'
-  windFarmCoord_path: 'data/coordinates_kronoberg.csv'
+  output_path: 'data/graphs/'
+  windFarmCoord_path: 'data/coordinates_wind_farm.csv'
   local_features: ['turbine_on_']
   targets: ['pow_']
   # Simulated Data Settings
@@ -16,19 +16,19 @@ graph_settings:
     
   # SCADA Data Settings
   scada_data:
-    input_path: '/Users/lisavind/GitHub/wind_power_prediction/data/scada_ifs_forecast_test.parquet' #'/Users/lisavind/GitHub/wind_power_prediction/data/train_data/scada_ifs_filtered.parquet'
-    global_features:  ['ws_for_avg', 'wd_for_cos_avg','wd_for_sin_avg','sin_time_of_day','cos_time_of_day', 'sin_month_of_year','cos_month_of_year'] #['ws', 'wd_cos','wd_sin','sin_time_of_day','cos_time_of_day', 'sin_month_of_year','cos_month_of_year'] #['ws_for_avg', 'wd_for_cos_avg','wd_for_sin_avg','sin_time_of_day','cos_time_of_day', 'sin_month_of_year','cos_month_of_year'] #, 
+    input_path: 'data/scada_ifs_forecast_test.parquet'
+    global_features:  ['ws', 'wd_cos','wd_sin']
 
 data_settings:
- train_ratio: 1
- validation_ratio: 0
- test_ratio: 0
+ train_ratio: 0.8 
+ validation_ratio: 0.1
+ test_ratio: 0.1
  sample_window: 144 #Use 1008 for sample size one week, use 144 for sample size one day
  norm_type: 'minmax' #Set to fixed, remove from config file
 
 #If directed True settings for wake
 wake_settings:
-  D: 136
-  length: 2720
-  base_width: 2
-  angle: 85
+  D: 136 #Diameter of rotor blades
+  length: 2720 #Wake length
+  base_width: 1 #Wake base width, 1 means rotor diameter is used
+  angle: 85 #Wake angle (degrees)
