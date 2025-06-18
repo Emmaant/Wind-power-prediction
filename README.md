@@ -196,9 +196,10 @@ The columns include:
    - temperature (float): Interpolated air temperature (K).
    - relative_humidity (float): Interpolated relative humidity (%).
 
-Run 
+Run:
 
 ```bash
-python 
+python processing_forecast_data/do_reformat_forecast_data.py --forecast_dir metno_forecast --scada_data  --index_path
 ```
-To merge forecast data with SCADA data.
+To merge forecast data with SCADA data. You will need to specify forecast directory, path to SCADA data and index to use.
+

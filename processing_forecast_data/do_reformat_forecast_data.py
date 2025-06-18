@@ -105,7 +105,7 @@ def inverse_transform_sin_cos(sin_val, cos_val):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Run to get forcast data frame merged with test data")
-    parser.add_argument('--forcast_dir', '-d', help="Path to the forecast data directory, expected format directory of .parquet files", type=str,required=True)
+    parser.add_argument('--forecast_dir', '-d', help="Path to the forecast data directory, expected format directory of .parquet files", type=str,required=True)
     parser.add_argument('--scada_data', '-f', help="Path to the scada data ", type=str , default= 'data/train_data/scada_ifs_filtered_hourly.parquet')
     parser.add_argument('--index_path', '-i', help="Path to the .pkl index file ", type=str, default='data/train_data/ml_data/index_hourly.pkl')
 
