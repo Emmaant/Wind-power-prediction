@@ -1,0 +1,35 @@
+graph_settings:
+  # Common Graph Settings
+  num_turbines: 16
+  directed: True # Options: undirected, directed
+  simulated: False 
+  local: True 
+  glbal: True 
+  curtailment_mode: False 
+  output_path: 'data/graphs/forcast'
+  windFarmCoord_path: 'data/coordinates_kronoberg.csv'
+  local_features: ['turbine_on_']
+  targets: ['pow_']
+  # Simulated Data Settings
+  simulated_data:
+    input_path: 'data_simulated/floris_different_layouts.parquet'
+    global_features: ['ws', 'wd_cos','wd_sin']
+    
+  # SCADA Data Settings
+  scada_data:
+    input_path: '/Users/lisavind/GitHub/wind_power_prediction/data/scada_ifs_forecast_test.parquet' #'/Users/lisavind/GitHub/wind_power_prediction/data/train_data/scada_ifs_filtered.parquet'
+    global_features:  ['ws_for_avg', 'wd_for_cos_avg','wd_for_sin_avg','sin_time_of_day','cos_time_of_day', 'sin_month_of_year','cos_month_of_year'] #['ws', 'wd_cos','wd_sin','sin_time_of_day','cos_time_of_day', 'sin_month_of_year','cos_month_of_year'] #['ws_for_avg', 'wd_for_cos_avg','wd_for_sin_avg','sin_time_of_day','cos_time_of_day', 'sin_month_of_year','cos_month_of_year'] #, 
+
+data_settings:
+ train_ratio: 1
+ validation_ratio: 0
+ test_ratio: 0
+ sample_window: 144 #Use 1008 for sample size one week, use 144 for sample size one day
+ norm_type: 'minmax' #Set to fixed, remove from config file
+
+#If directed True settings for wake
+wake_settings:
+  D: 136
+  length: 2720
+  base_width: 2
+  angle: 85
