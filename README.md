@@ -55,8 +55,6 @@ processing_weather_data/
 
 ```
 
-
-
 ## How to create environment required to run code
 
 ```console  
@@ -125,12 +123,20 @@ To train the GNN model, run:
 python gnn_framework/do_train_gnn_model.py
 ```
 
+## How to train ML models (NOT Finalized)
+To train ML models the code in ml_framework is used. To train MLP use do_train_mlp_model.py or sklearn models can be trained do_train_ml_model.py. Tabular data is used as input.
+
+### How to train sklearn models
 
 
-## How to train ML models
+### How to train MLP models
 
 
+ **Note**: If you want to add statistical features from graph, in degree or out degree these can be created by using script 
 
+```bash
+python generate_data/do_create_degree_features.py'
+```
 
 ## How to get metno forcast data
 
