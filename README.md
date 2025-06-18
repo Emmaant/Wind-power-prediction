@@ -93,7 +93,7 @@ python processing_scada_data/do_filtering.py
 ## How to create graphs
 Before training the GNN model, graph data must be generated from raw input. This is done using the script:
 ```bash
-python generate_data/do_create_graph.py -config_path 'generate_data/graph_config.yml'
+python process_train_data/do_create_graph.py -config_path 'generate_data/graph_config.yml'
 ```
 To generate graphs, you need to provide a configuration file. A sample config is available in generate_data/graph_config.yml
 
