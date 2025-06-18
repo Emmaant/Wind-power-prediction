@@ -188,7 +188,6 @@ def process_file(df_time):
         run = row.hour
         process_single_file(d, lat_farm, long_farm, run)
 
-
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Process MEPS wind forecast data")
     parser.add_argument('--file', '-f', type=str, default=None, help="Specify file path with times to extract")

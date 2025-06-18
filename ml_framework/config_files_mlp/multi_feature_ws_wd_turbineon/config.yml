@@ -3,6 +3,7 @@ data_settings:
   local_features: True
   global_features: True
   hourly_data: False
+  multitask: True 
   global_feature_list: ['ws','wd_cos','wd_sin'] #Specify global input features
   local_feature_list: ['turbine_on_'] #Specify local input features
   targets: ['pow_'] #Specify targets to predict
@@ -11,7 +12,7 @@ data_settings:
 data_paths:
   simulated_data: 'data/floris_simulated_ifs_all_data.parquet'
   scada_data: 'data/train_data/ml_data/df_ifs_scada.parquet'
-  split_index: 'data/train_data/ml_data/index.pkl'
+  split_index: 'data/graphs/directed_True_sim_False_local_True_global_True_features_4_targets_1_D_136_length_2720_width_1_angle_85/index.pkl'
   windFarmCoord_path: 'data/coordinates_wind_farm.csv'
 
 data_paths_hourly:

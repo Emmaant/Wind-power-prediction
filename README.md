@@ -175,7 +175,7 @@ The new dataframe is saved in .parquet format and by default in folder 'data/tra
 To obtain forecast data from MET Norway a script has been created. To extract data specify coordinates in .csv file with columns 'Latitude', 'Longitude' and specify times in .parquet files with columns 'year', 'month', 'day', 'hour'
 
 ```bash
-python processing_forecast_data/do_get_forecast_data.py' -c 'data/coordinates_wind_farm.csv' -f 'processing_forecast_data/df_times.parquet' -o 'metno_forecast'
+python processing_forecast_data/do_get_forecast.py -f 'processing_forecast_data/df_times.parquet' -c 'data/coordinates_wind_farm.csv' -o 'data/forecast'
 ```
 
 The forecasts are saved in .parquet format in the specified output directory. To change output directory use '--output_dir' or '-o'.
@@ -199,7 +199,7 @@ The columns include:
 Run:
 
 ```bash
-python processing_forecast_data/do_reformat_forecast_data.py --forecast_dir metno_forecast --scada_data  --index_path
+python processing_forecast_data/do_reformat_forecast_data.py --forecast_dir 'data/forecast' --scada_data  --index_path
 ```
 To merge forecast data with SCADA data. You will need to specify forecast directory, path to SCADA data and index to use.
 

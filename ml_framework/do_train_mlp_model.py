@@ -266,7 +266,7 @@ def run_optuna(config_dir: str, n_trials: int = 30):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--yaml_config', '-c', help="path to the yaml config file", type=str,required=False, default='ml_framework/src/mlp_configs')
+    parser.add_argument('--yaml_config', '-c', help="path to the yaml config file", type=str,required=False, default='ml_framework/config_files_mlp')
     parser.add_argument('--trails', '-n', help="specify how many trails to run using optuna", type=int,required=False, default=30)
 
     args = parser.parse_args()

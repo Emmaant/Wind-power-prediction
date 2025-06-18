@@ -13,7 +13,7 @@ import argparse
 import pandas as pd
 from itertools import product 
 
-from topography_tools import *
+from utils.topography_tools import *
 
 def initialize_data(df,coordinates, config,wd_column):
     """
@@ -84,7 +84,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    print(args.yaml_config,)
+    print(args.yaml_config)
 
     config = Box.from_yaml(filename=args.yaml_config, Loader=yaml.FullLoader)
 

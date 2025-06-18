@@ -145,17 +145,17 @@ if __name__ == '__main__':
     #Specify parameters and values for tuning using grid search
     param_grids = {
     'XGBoost': {
-        'max_depth': [3,5],
-        'learning_rate': [0.1, 0.05],
-        'n_estimators': [100, 200]
+        'max_depth': [3], #,5
+        'learning_rate': [0.1], #, 0.05]
+        'n_estimators': [100] #, 200
     },
     'RF': {
-        'n_estimators': [100,200],
-        'max_depth': [5,10],
+        'n_estimators': [100], #,200
+        'max_depth': [5], #,10
         'min_samples_split': [5]
     },
     'kNN': {
-        'n_neighbors': [2, 5,10, 20, 50,100, 200]
+        'n_neighbors': [200] #2, 5,10, 20, 50,100, 
     }
 }
     config_dir = Path(args.yaml_config)
