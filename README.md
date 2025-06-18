@@ -35,7 +35,7 @@ ml_framework/
 │   └── ...
 ├── config_files_mlp/
 │   ├── multi_feature_ws_wd_turbineon/
-│   │   ├── config.yml
+│   └── ├── config.yml
 ├── do_inference.py
 ├── do_inference_forecast.py
 ├── do_inference_forecast_mlp.py 
