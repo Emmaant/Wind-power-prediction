@@ -5,7 +5,7 @@ import netCDF4 as nc
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description="Convert ERA5 data with format NetCDF to csv file")
+    parser = argparse.ArgumentParser(description="Convert weather data with format NetCDF to csv file")
     parser.add_argument('-file_path', type=str, help="Specify file path to .nc file")
     parser.add_argument('-file_name', type=str, help="Specify file name to save file as", default='ERA5_data')
     parser.add_argument('-data_type', type=str, choices = ['wind','temperature'], default='wind')

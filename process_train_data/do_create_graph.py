@@ -5,18 +5,18 @@ Script to create graphs for training Graph Neural Network
 import argparse
 from box import Box
 import yaml as yaml
+import pickle
 from sklearn.metrics.pairwise import euclidean_distances
 from utils.graph_helpers import *
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Create graphs for GNN")
-    parser.add_argument('-config_path', type=str, help="Specify file path to config file for graphs", default='gnn_framework/graphs/graph_config.yml')
+    parser.add_argument('-config_path', type=str, help="Specify file path to config file for graphs", default='process_train_data/graph_config.yml')
 
     args = parser.parse_args()
 
     config = Box.from_yaml(filename=args.config_path, Loader=yaml.FullLoader)
     simulated = config.graph_settings.simulated
-    config.graph_settings.curtailment_mode = config.graph_settings.curtailment_mode if not simulated else False
 
     local_feat = config.graph_settings.local_features
 
@@ -36,8 +36,8 @@ if __name__ == '__main__':
     distances_2d = (distances_2d - np.min(distances_2d)) / (np.max(distances_2d) - np.min(distances_2d))
     distances_z = (distances_z - np.min(distances_z)) / (np.max(distances_z) - np.min(distances_z))
 
-    attr_array = np.array([distances_2d,distances_z])  #, distances_z
-    print(attr_array.shape)
+    attr_array = np.array([distances_2d,distances_z])
+
     n_local_features = 0
     if config.graph_settings.local:
         n_local_features = len(config.graph_settings.local_features)

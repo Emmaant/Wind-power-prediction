@@ -42,9 +42,8 @@ def filtering_scada_data(power_curve_df, df, config):
 
     df.reset_index(drop=True, inplace=True)
     df = add_cyclic_features(df, ['Nacelle position_', 'wd_'], n_turbines=n_turbines)
-    df = add_cyclic_features(df, ['wd'])
+    
     return df
-
 
 
 if __name__ == '__main__':
@@ -61,7 +60,7 @@ if __name__ == '__main__':
     power_curve_df = pd.read_csv(config.power_curve_path)
     df = filtering_scada_data(power_curve_df,df,config)
     df = add_time_features(df,config)
-
+    df = create_global_ws_wd_column(df)
     
     full_file_name = config.file_name_save
 

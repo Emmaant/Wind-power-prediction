@@ -6,10 +6,8 @@ import os
 from torch_geometric.data import Data
 import joblib
 
-from floris import FlorisModel
-from flasc.utilities import floris_tools as ftools
-import topography_tools as tt
-from normalizing_data import *
+import utils.topography_tools as tt
+from utils.normalizing_data import *
 
 
 def convert_adjacency_matrix_to_edge_index(A):
@@ -116,7 +114,6 @@ class Graph:
         self.glbal = config.graph_settings.glbal
         self.directed = config.graph_settings.directed
         self.simulated = config.graph_settings.simulated
-        self.curtailment_mode =config.graph_settings.curtailment_mode
         self.norm_type = config.data_settings.norm_type
         self.num_turbines = config.graph_settings.num_turbines
         self.num_local_features = len(config.graph_settings.local_features)

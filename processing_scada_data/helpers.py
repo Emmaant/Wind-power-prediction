@@ -242,6 +242,40 @@ def merge_global_local_features(df_scada,df_weather):
     df = df_scada.merge(df_weather, on='time', how='inner')
     return df
 
+def inverse_transform_sin_cos(sin_val, cos_val):
+    radians = np.arctan2(sin_val, cos_val)
+    degrees = np.rad2deg(radians)
+    degrees = (degrees + 360) % 360  # Ensure degrees are in [0, 360)
+    return degrees
+
+def create_global_ws_wd_column(df):
+    ws_cols = [f'ws_{i:03d}' for i in range(16)]
+    wd_sin_cols = [f'wd_sin_{i:03d}' for i in range(16)]
+    wd_cos_cols = [f'wd_cos_{i:03d}' for i in range(16)]
+
+    # Convert to NumPy arrays
+    ws_array = df[ws_cols].to_numpy()
+    sin_array = df[wd_sin_cols].to_numpy()
+    cos_array = df[wd_cos_cols].to_numpy()
+
+    # Get indices of top 2 wind speeds per row (argsort in descending order)
+    top2_idx = np.argsort(ws_array, axis=1)[:, -2:]  # shape (n_rows, 2)
+
+    # Average top 2 ws
+    row_idx = np.arange(ws_array.shape[0])[:, None]
+    ws_top2 = ws_array[row_idx, top2_idx]
+    df['ws'] = ws_top2.mean(axis=1)
+
+    # Average corresponding wd
+    sin_top2 = sin_array[row_idx, top2_idx]
+    cos_top2 = cos_array[row_idx, top2_idx]
+    df['wd_sin'] = sin_top2.mean(axis=1)
+    df['wd_cos'] = cos_top2.mean(axis=1)
+
+    df['wd'] = inverse_transform_sin_cos(df['wd_sin'], df['wd_cos'])
+
+    return df
+
 
 def add_time_features(df, config):
     df = df.copy()  
