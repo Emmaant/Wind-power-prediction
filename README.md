@@ -184,8 +184,8 @@ In the script you can specify the target_height i.e. what height to interpolate 
 
 The scripts provides interpolated weather data for specified coordinates and forecast times. 
 The columns include:
-   - forecast_time (datetime): The time of the forecast
-   - date (datetime): The time the forecast was made
+   - forecast_run (datetime): The time the forecast was made.
+   - forecast_time (datetime): The time of the forecast.
    - latitude: Latitude of the farm or specified coordinates.
    - longitude: Longitude of the farm or specified coordinates.
    - u: wind component
