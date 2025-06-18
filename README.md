@@ -127,9 +127,9 @@ python gnn_framework/do_train_gnn_model.py
 To train ML models the code in ml_framework is used. To train MLP use do_train_mlp_model.py or sklearn models can be trained do_train_ml_model.py. Tabular data is used as input.
 
 ### How to train sklearn models
-To train sklearn models a directory of subdirectories with config files is needed. Each config files specifies the features to use during training and if one model for each turbine is to be trained or one model for all turbines. The trained models are saved in the subdirectories. 
+To train sklearn models a directory of subdirectories with config files is needed. Each config file specifies the features to use during training. Local features are specific for each turbine and all features ending in _000 - _016 are added. Global features are simply added as specified. In the config file one needs to specify if one model for each turbine is to be trained or one model for all turbines. The trained models are saved in the subdirectories. 
 
-The models trained are kNN regressor, XGBoost regressor and Random Forest Regressors. Others could be added to the dictionary regressors if needed. The hyperparameters are tuned using grid search and specified in the dictionary  param_grids. To modify, modify script directly.
+The models trained are kNN regressor, XGBoost regressor and Random Forest Regressors. Others could be added to the dictionary `regressors` if needed. The hyperparameters are tuned using grid search and specified in the dictionary  `param_grids`. To modify, modify script directly.
 
 To train the models run:
 
@@ -137,11 +137,10 @@ To train the models run:
 python ml_framework/do_train_ml_model.py -c 'ml_framework/config_files'
 ```
 
-Only the best model is saved. Training is done on CPU. Training on GPU is not supported by the script.
-
+Only the best models for each subdirectory is saved. Training is done on CPU. Training on GPU is not supported by the script.
 
 ### How to train MLP models
-To train MLP model a directory of subdirectories with config files is needed. Each config files specifies the features to use during training. One model is trained for predicting the power output for all turbines.
+To train MLP model a directory of subdirectories with config files is needed. Each config files specifies the features to use during training.  Local features are specific for each turbine and all features ending in _000 - _016 are added. Global features are simply added as specified. One model is trained for predicting the power output for all turbines.
 
 To train models run:
 
@@ -149,18 +148,57 @@ To train models run:
 python ml_framework/do_train_mlp_model.py -c 'ml_framework/config_files_mlp'
 ```
 
-Optuna is used for hyperparameter tuning. To specify number of optuna trails to run use -n 
+Optuna is used for hyperparameter tuning. To specify number of optuna trails to run use -n. Only the best models for each subdirectory is saved. Training can be done on GPU or CPU.
 
- **Note**: If you want to add statistical features from graph, in degree or out degree these can be created by using script 
+ **Note**: If you want to add local statistical features from graph, in degree or out degree these can be created by using script: 
 
 ```bash
 python generate_data/do_create_degree_features.py'
 ```
 
+see section See [Create Degree Features](##create-degree-features) below.
+
+## Create Degree Features
+Statistical properties can be calculated from a graph. Adding these when training ML models which take tabular data as input could improve training as it for example can give the models information about what turbines are in wake or upstream. 
+
+Therefore, a script for calculating the in degree and out degree from a set of graphs was created. To run script:
+
+```bash
+python generate_data/do_create_degree_features.py' --yaml_config 'generate_data/data_config.yml' 
+```
+The config file specifies the path to the data file to add features to and the wake settings to use when creating features.
+Columns added are out_degree_(angle, base_width, length)_XXX, in_degree_(angle, base_width, length)_XXX where _XXX denotes the turbine index.
+
+The new dataframe is saved in .parquet format and by default in folder 'data/train_data/ml_data/'. To change output directory use '--output_dir' or '-o'.
+
 ## How to get metno forcast data
+To obtain forecast data from MET Norway a script has been created. To extract data specify coordinates in .csv file with columns 'Latitude', 'Longitude' and specify times in .parquet files with columns 'year', 'month', 'day', 'hour'
 
+```bash
+python processing_forecast_data/do_get_forecast_data.py' -c 'data/coordinates_wind_farm.csv' -f 'processing_forecast_data/df_times.parquet' -o 'metno_forecast'
+```
 
+The forecasts are saved in .parquet format in the specified output directory. To change output directory use '--output_dir' or '-o'.
 
+In the script you can specify the target_height i.e. what height to interpolate the win dspeed and wind direction to.  The number of forecast hours to extract. The number of nearby gridpoints in the forecast data to use for the coordinates you want to extract.
 
+The scripts provides interpolated weather data for specified coordinates and forecast times. 
+The columns include:
+   - forecast_time (datetime): The time of the forecast
+   - date (datetime): The time the forecast was made
+   - latitude: Latitude of the farm or specified coordinates.
+   - longitude: Longitude of the farm or specified coordinates.
+   - u: wind component
+   - v: wind component
+   - wind_speed: Wind speed magnitude, calculated from u,v components.
+   - wind_direction: Wind direction in degrees, calculated from u,v components.
+   - surface_air_pressure: Interpolated surface air pressure (Pa).
+   - temperature (float): Interpolated air temperature (K).
+   - relative_humidity (float): Interpolated relative humidity (%).
 
+Run 
 
+```bash
+python 
+```
+To merge forecast data with SCADA data.

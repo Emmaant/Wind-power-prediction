@@ -193,7 +193,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Process MEPS wind forecast data")
     parser.add_argument('--file', '-f', type=str, default=None, help="Specify file path with times to extract")
     parser.add_argument('--coordinates', '-c', type=str, default=None, help="Specify file path to .csv wind farm coordinates, should contain columns 'Latitude', 'Longitude'")
-    parser.add_argument('--directory', '-d', type=str, default=None, help="Specify path to output directory")
+    parser.add_argument('--output_dir', '-o', type=str, default=None, help="Specify path to output directory")
 
     args = parser.parse_args()
 
@@ -202,7 +202,7 @@ if __name__ == '__main__':
     nh = 7  # number of vertical levels
     nf = 24  # Extract 24 forecast hours
     npo = 3  # number of nearby grid points to extract
-    output_dir = args.directory
+    output_dir = args.output_dir
     os.makedirs(output_dir, exist_ok=True)
 
     #File to wind farm coordinates
