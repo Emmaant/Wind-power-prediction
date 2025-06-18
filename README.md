@@ -137,11 +137,19 @@ To train the models run:
 python ml_framework/do_train_ml_model.py -c 'ml_framework/config_files'
 ```
 
-Only the best model is saved. Training is done on CPU. GPU is not supported by the script.
+Only the best model is saved. Training is done on CPU. Training on GPU is not supported by the script.
 
 
 ### How to train MLP models
+To train MLP model a directory of subdirectories with config files is needed. Each config files specifies the features to use during training. One model is trained for predicting the power output for all turbines.
 
+To train models run:
+
+```bash
+python ml_framework/do_train_mlp_model.py -c 'ml_framework/config_files_mlp'
+```
+
+Optuna is used for hyperparameter tuning. To specify number of optuna trails to run use -n 
 
  **Note**: If you want to add statistical features from graph, in degree or out degree these can be created by using script 
 
