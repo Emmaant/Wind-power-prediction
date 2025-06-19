@@ -92,6 +92,11 @@ To run the filtering process:
 ```bash
 python processing_scada_data/do_filtering.py
 ```
+## How to interpolate weather data
+To interpolate hourly weather data to 10 min resolution run following script where file_path is the path to the raw weather data and file_name is the name that the interpolated dataset will be saved as:
+```bash
+python processing_weather_data/do_interpolate_weather_data.py -file_path data/raw_weather.csv -file_name interpolated_weather
+```
 
 ## How to create graphs
 Before training the GNN model, graph data must be generated from raw input. This is done using the script:
