@@ -4,7 +4,7 @@ from datetime import datetime
 import os, torch, optuna, argparse, yaml, wandb
 from tqdm import tqdm
 from processor_settings.optimizer import get_optimizer
-from gnn_framework.gnn_architecture import *
+from gnn_architecture import *
 
 
 def build_model(config):
@@ -76,7 +76,8 @@ def train(config, graphs_train, validate_loader):
     run_name = f"{run_name}_{current_time}"
     current_run_dir = os.path.join(config.io_settings.run_dir, run_name)
     os.makedirs(os.path.join(current_run_dir, 'trained_models'), exist_ok=True)
-    wandb.init(project=config.io_settings.wandb_project_name, config=config, name=run_name, reinit=True)
+    if config.wandb:
+        wandb.init(project=config.io_settings.wandb_project_name, config=config, name=run_name, reinit=True)
     config.to_yaml(filename=os.path.join(current_run_dir, 'config.yml'))
     model = build_model(config).to(device)
     optimizer = get_optimizer(
@@ -94,7 +95,8 @@ def train(config, graphs_train, validate_loader):
 
     for epoch in range(config.hyperparameters.epochs):
         train_loss = train_one_epoch(model, optimizer, train_loader, device)
-        wandb.log({"epoch": epoch, "train loss": train_loss})
+        if config.wandb:
+            wandb.log({"epoch": epoch, "train loss": train_loss})
 
         if epoch == 0:
             torch.save({'model_state_dict': model.state_dict()}, os.path.join(current_run_dir, 'trained_models', 'best.pt'))
@@ -103,7 +105,8 @@ def train(config, graphs_train, validate_loader):
             torch.save({'model_state_dict': model.state_dict()}, os.path.join(current_run_dir, 'trained_models', f'e{epoch + 1}.pt'))
 
         validation_loss = evaluate(model, validate_loader, device)
-        wandb.log({"validation loss": validation_loss}, step=epoch + 1)
+        if config.wandb:
+            wandb.log({"validation loss": validation_loss}, step=epoch + 1)
 
         if scheduler.get_last_lr()[0] > float(config.hyperparameters.min_lr):
             scheduler.step()
@@ -120,8 +123,8 @@ def train(config, graphs_train, validate_loader):
                 break
         pbar.set_postfix({'Train Loss': f'{train_loss:.8f}', 'Validation Loss': f'{validation_loss:.8f}'})
         pbar.update(1)
-
-    wandb.run.summary["final loss"] = validation_loss
+    if config.wandb:
+        wandb.run.summary["final loss"] = validation_loss
     config.best_validation_loss = best_validation_loss
     config.to_yaml(filename=os.path.join(current_run_dir, 'config.yml'))
     return best_validation_loss
@@ -151,31 +154,31 @@ def optuna_objective(trial, config, graphs_train, validate_loader):
 
 def train_models(config_path: str):
     config = Box.from_yaml(filename=config_path, Loader=yaml.FullLoader)
-    for item in os.listdir(config.io_settings.path):
-        config.io_settings.directory = os.path.join(config.io_settings.path, item)
-        train_path = os.path.join(config.io_settings.directory, config.io_settings.train_graphs_path)
-        val_path = os.path.join(config.io_settings.directory, config.io_settings.validate_graphs_path)
-        graphs_train = torch.load( train_path, weights_only=False)
-        graphs_val = torch.load(val_path, weights_only = False)
-        config.edge_attr_dim = graphs_train[0].edge_attr.shape[1]
-        config.feature_dim = graphs_train[0].x.shape[1]
-        config.decoder_settings.output_dim = graphs_train[0].y.shape[1]
-        validate_loader = DataLoader(
-            graphs_val,
-            batch_size=1,
-            shuffle=False,
-            exclude_keys=[],
-            num_workers=config.run_settings.num_v_workers,
-            pin_memory=True,
-            persistent_workers=config.run_settings.num_v_workers != 0
-        )
+
+    train_path = os.path.join(config.io_settings.directory, config.io_settings.train_graphs_path)
+    val_path = os.path.join(config.io_settings.directory, config.io_settings.validate_graphs_path)
+    graphs_train = torch.load( train_path, weights_only=False)
+    graphs_val = torch.load(val_path, weights_only = False)
+    config.edge_attr_dim = graphs_train[0].edge_attr.shape[1]
+    config.feature_dim = graphs_train[0].x.shape[1]
+    config.decoder_settings.output_dim = graphs_train[0].y.shape[1]
+    validate_loader = DataLoader(
+        graphs_val,
+        batch_size=1,
+        shuffle=False,
+        exclude_keys=[],
+        num_workers=config.run_settings.num_v_workers,
+        pin_memory=True,
+        persistent_workers=config.run_settings.num_v_workers != 0
+    )
+    if config.wandb:
         wandb.login()
-        if config.hyper_tuning_settings.tune:
-            study = optuna.create_study(direction="minimize")
-            study.optimize(lambda trial: optuna_objective(trial, config, graphs_train, validate_loader), n_trials=config.hyper_tuning_settings.n_trials)
-            print("Best trial:", study.best_trial.params)
-        else:
-            train(config, graphs_train, validate_loader)
+    if config.hyper_tuning_settings.tune:
+        study = optuna.create_study(direction="minimize")
+        study.optimize(lambda trial: optuna_objective(trial, config, graphs_train, validate_loader), n_trials=config.hyper_tuning_settings.n_trials)
+        print("Best trial:", study.best_trial.params)
+    else:
+        train(config, graphs_train, validate_loader)
 
 
 if __name__ == "__main__":

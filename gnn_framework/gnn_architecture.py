@@ -1,3 +1,6 @@
+'''
+Script for the architecture of the gnn
+'''
 import torch.nn as nn
 import torch 
 from torch_geometric.nn import GATConv, GENConv
@@ -77,16 +80,6 @@ class ProcessorBlock(nn.Module):
     def forward(self, x, edge_index, edge_attr):        
         return self.norm(self.conv(x, edge_index, edge_attr))
 
-
-    def forward(self, x, edge_index, edge_attr):
-
-        x = self.layers[0].conv(x, edge_index, edge_attr)
-        for layer in self.layers[1:]:
-            x = layer(x, edge_index, edge_attr)
-
-        x = self.layers[0].act(self.layers[0].norm(x))
-        return x
-    
 
 class WindFarmGNN(nn.Module):
     def __init__(self, config):

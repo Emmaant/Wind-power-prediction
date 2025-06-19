@@ -6,18 +6,19 @@ run_settings:
 # settings that handle the io
 io_settings:
   wandb_project_name: IFS
-  path: 'data/graphs/ifs/'
-  directory: 'data/graphs/new/directed_True_sim_False_local_True_global_True_features_14_targets_1_D_136_length_2720_width_2_angle_85'
-  train_graphs_path:  'train.pt'
+  directory: 'data/graphs/directed_True_sim_False_local_True_global_True_features_4_targets_1_D_136_length_2720_width_1_angle_85'
+  train_graphs_path: 'train.pt'
   validate_graphs_path:  'validation.pt'
   test_graphs_path: 'test.pt'
   run_dir: './runs'                     # path to the save directory for model saving
   save_epochs: 50                      # number of epochs between model saves
   pretrained_model: ''                  # leave empty string if not using pretrained model
 
+wandb: False # Tru if you want to track the training in weights and biases
+
 # training hyperparameters
 hyperparameters:
-  epochs: 300                         # number of epochs
+  epochs: 5                         # number of epochs
   start_lr: 1e-3                        # initial learning rate
   min_lr: 1e-4                  # decay the learning rate up until this epoch
   batch_size: 64                       # number of graphs per batch   
