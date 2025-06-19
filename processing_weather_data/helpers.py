@@ -12,15 +12,15 @@ def inverse_transform_sin_cos(sin_val, cos_val):
     degrees = (degrees + 360) % 360  # Ensure degrees are in [0, 360)
     return degrees
 
-def transform_periodic_data(df,col_name):
+def transform_periodic_data(df, col_names):
     df = df.copy()
-    columns_list = [col for col in df.columns if col.startswith(col_name)]
-    for col in columns_list:
-        sin, cos = transform_sin_cos(df[col])
-        sin_col = 'sin_' + col 
-        cos_col = 'cos_' + col 
-        df[sin_col] = sin
-        df[cos_col] = cos
+    col_names = [col_names] if isinstance(col_names, str) else col_names
+    for prefix in col_names:
+        columns_list = [col for col in df.columns if col.startswith(prefix)]
+        for col in columns_list:
+            sin, cos = transform_sin_cos(df[col])
+            df[f"sin_{col}"] = sin
+            df[f"cos_{col}"] = cos
     return df
 
 def linear_interpolation(df, cols_list):
@@ -39,22 +39,24 @@ def forward_and_backward_fill(df, columns):
             df[col] = df[col].bfill( limit=3)  
     return df
 
-def interpolate_weather_data(df,interval = '10min'):
+def interpolate_weather_data(df,config):
    df = df.copy()
    df.index = pd.to_datetime(df.index)
-   df = transform_periodic_data(df,'wind_direction_100m')
+   df = transform_periodic_data(df, config.columns_transform_periodic)
    
-   new_index = pd.date_range(start=df.index.min(), end=df.index.max(), freq=interval)
+   new_index = pd.date_range(start=df.index.min(), end=df.index.max(), freq=config.interpolate_to_interval)
    df = df.reindex(new_index)
    
-   df = linear_interpolation(df,["cos_wind_direction_100m","sin_wind_direction_100m","wind_speed_100m","temperature_2m","relative_humidity_2m","surface_pressure"])
-   df = forward_and_backward_fill(df, ["precipitation", "snowfall", "rain"])
-
-   for i in range(16):  
-        sin_col = f'sin_wind_direction_100m_{i:03d}'  
-        cos_col = f'cos_wind_direction_100m_{i:03d}'
-        if sin_col in df.columns and cos_col in df.columns:
-            wind_col = f'wind_direction_100m_{i:03d}'
-            df[wind_col] = inverse_transform_sin_cos(df[sin_col], df[cos_col])
+   df = linear_interpolation(df,config.columns_linear_interpolation)
+   df = forward_and_backward_fill(df, config.columns_backward_forward_fill)
+   
+   for prefix in config.columns_transform_periodic:
+        cols = [col for col in df.columns if col.startswith(f"sin_{prefix}")]
+        for sin_col in cols:
+            suffix = sin_col[len("sin_"):]
+            cos_col = f"cos_{suffix}"
+            orig_col = suffix
+            if cos_col in df.columns:
+                df[orig_col] = inverse_transform_sin_cos(df[sin_col], df[cos_col])
    return df
 

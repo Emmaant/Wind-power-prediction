@@ -1,0 +1,8 @@
+file_path: 'data/IFS_data(59.156, 14.628).csv'
+file_path_save: 'data/weather_data_interpolated'
+
+interpolate_to_interval: '10min'
+
+columns_transform_periodic: ['wd']
+columns_linear_interpolation: ["cos_wd","sin_wd","ws","temperature_2m","relative_humidity_2m","surface_pressure"]
+columns_backward_forward_fill: ["precipitation", "snowfall", "rain"]
