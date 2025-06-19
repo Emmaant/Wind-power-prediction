@@ -93,9 +93,18 @@ To run the filtering process:
 python processing_scada_data/do_filtering.py
 ```
 ## How to interpolate weather data
-To interpolate hourly weather data to 10 min resolution run following script where file_path is the path to the raw weather data and file_name is the name that the interpolated dataset will be saved as:
+To interpolate weather data to a higher temporal resolution:
+
+
+1. Open the configuration file:  
+   `processing_weather_data/config.yml`
+
+2. Set the path to the ** weahter data**. There are also other options in the config file such as where the interpolated data is saved and to which resolution the data should be interpolated.
+
+To run the interpolation process:
+
 ```bash
-python processing_weather_data/do_interpolate_weather_data.py -file_path data/raw_weather.csv -file_name interpolated_weather
+python processing_weather_data/do_interpolate_weather_data.py 
 ```
 
 ## How to create graphs
